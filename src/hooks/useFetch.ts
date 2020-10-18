@@ -8,7 +8,7 @@ interface IState {
   data: any;
 }
 
-export const useFetch = (url: string, endPoint: string) => {
+export const useFetch = (url: string) => {
   const [state, setstate] = useState<IState>({
     loading: true,
     error: false,
@@ -17,7 +17,7 @@ export const useFetch = (url: string, endPoint: string) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response: AxiosResponse = await (await client()).get(endPoint);
+        const response: AxiosResponse = await (await client()).get(url);
         if (response.data) {
           setstate({
             ...state,
@@ -34,6 +34,6 @@ export const useFetch = (url: string, endPoint: string) => {
       }
     };
     fetchData();
-  }, [url, state]);
+  }, []);
   return state;
 };

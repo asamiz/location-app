@@ -1,25 +1,30 @@
-import React from 'react';
-import {View} from 'react-native';
-import {TitledSelector} from '../../components';
+import React, {useCallback, useState} from 'react';
+import {ActivityIndicator, View} from 'react-native';
+import {DropDownData} from '../../common';
+import {LocationForm} from '../../components';
+import {useFetch} from '../../hooks';
+import {getCountryCities} from '../../services/services';
+import {reshapeDropdownData} from '../../utils';
 import styles from './styles';
 
 const Home = () => {
-  return (
+  const {data: countryData, loading: countriesLoading} = useFetch('/countries');
+  const [cities, setCities] = useState<DropDownData[] | undefined>([]);
+
+  const onSelectCountry = useCallback(async (item: DropDownData) => {
+    const response = await getCountryCities(item);
+    setCities(response);
+  }, []);
+
+  return countriesLoading ? (
+    <ActivityIndicator style={styles.activityIndicator} />
+  ) : (
     <View style={styles.container}>
-      <TitledSelector
-        placeholder={'Select your country ..'}
-        zIndex={5000}
-        title={'Country'}
-      />
-      <TitledSelector
-        placeholder={'Select your city ..'}
-        zIndex={4000}
-        title={'City'}
-      />
-      <TitledSelector
-        placeholder={'Select your area ..'}
-        zIndex={3000}
-        title={'Area'}
+      <LocationForm
+        countries={reshapeDropdownData(countryData)}
+        onSelectCountry={(item: DropDownData) => onSelectCountry(item)}
+        onSelectCity={() => {}}
+        cities={cities}
       />
     </View>
   );

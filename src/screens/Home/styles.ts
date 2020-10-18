@@ -6,4 +6,9 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
+  activityIndicator: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
