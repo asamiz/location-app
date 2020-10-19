@@ -7,12 +7,18 @@ import styles from './styles';
 interface Props {
   countries: DropDownData[];
   cities: DropDownData[] | undefined;
+  areas: DropDownData[] | undefined;
   onSelectCountry: (item: DropDownData) => void;
-  onSelectCity: () => void;
+  onSelectCity: (item: DropDownData) => void;
 }
 
-let Component = ({countries, cities, onSelectCountry, onSelectCity}: Props) => {
-  console.log('CITIES', cities);
+let Component = ({
+  countries,
+  cities,
+  areas,
+  onSelectCountry,
+  onSelectCity,
+}: Props) => {
   return (
     <View>
       <Text style={styles.title}>{'Location'}</Text>
@@ -23,23 +29,25 @@ let Component = ({countries, cities, onSelectCountry, onSelectCity}: Props) => {
         onChangeValue={(item) => onSelectCountry(item)}
         data={countries}
       />
-      <TitledSelector
-        placeholder={
-          cities?.length === 0
-            ? 'Please select country first ..'
-            : 'Select your city ..'
-        }
-        zIndex={4000}
-        title={'City *'}
-        disabled={cities?.length === 0}
-        onChangeValue={() => onSelectCity()}
-        data={cities}
-      />
-      {/* <TitledSelector
-        placeholder={'Select your area ..'}
-        zIndex={3000}
-        title={'Area'}
-      /> */}
+      {cities?.length !== 0 && (
+        <TitledSelector
+          placeholder={'Select your city ..'}
+          zIndex={4000}
+          title={'City *'}
+          disabled={cities?.length === 0}
+          onChangeValue={(item: DropDownData) => onSelectCity(item)}
+          data={cities}
+        />
+      )}
+      {areas?.length !== 0 && (
+        <TitledSelector
+          placeholder={'Select your area ..'}
+          zIndex={3000}
+          disabled={areas?.length === 0}
+          title={'Area (Optional)'}
+          data={areas}
+        />
+      )}
     </View>
   );
 };
