@@ -3,7 +3,7 @@ import {StyleSheet} from 'react-native';
 export default StyleSheet.create({
   container: {
     paddingHorizontal: 33,
-    marginTop: 200,
+    marginTop: 140,
     zIndex: 300,
     justifyContent: 'center',
   },
