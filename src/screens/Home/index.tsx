@@ -28,6 +28,7 @@ const Home = () => {
 
   const onSelectCity = useCallback(
     async (item: DropDownData) => {
+      dispatch({type: TYPES.UPDATE_AREAS, payload: []});
       if (selectedCountry?.value === '56') {
         const response = await getCitiesAreas(selectedCountry, item);
         dispatch({type: TYPES.UPDATE_AREAS, payload: response});
